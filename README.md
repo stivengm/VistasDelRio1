@@ -1,6 +1,9 @@
-# vistas_del_rio_1
+# Vistas del Rio 1
 
 A new Flutter project.
+
+
+Este proyecto se está realizando para un Conjunto Residencial como proyecto PERSONAL.
 
 ## Getting Started
 
