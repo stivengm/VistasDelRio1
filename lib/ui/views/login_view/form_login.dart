@@ -1,5 +1,8 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:vistas_del_rio_1/core/blocs/login/login_bloc.dart';
+import 'package:vistas_del_rio_1/core/models/login_user.model.dart';
 import 'package:vistas_del_rio_1/ui/utils/app_colors.dart';
 import 'package:vistas_del_rio_1/ui/widgets/primary_button.widget.dart';
 
@@ -121,35 +124,30 @@ class _FormLoginState extends State<FormLogin> {
   }
 
   login() async {
+    FocusManager.instance.primaryFocus?.unfocus();
+    final isValidForm = formKey.currentState!.validate();
+    if (!isValidForm) return;
 
-    Navigator.of(context).pushNamedAndRemoveUntil('home', (route) => false);
+    final loginBloc = BlocProvider.of<LoginBloc>(context);
 
+    loginBloc.add(const IsLoader(true));
 
+    LoginUserModel user = LoginUserModel(
+      email: emailController.text.trim(),
+      password: passwordController.text.trim()
+    );
 
-    // FocusManager.instance.primaryFocus?.unfocus();
-    // final isValidForm = formKey.currentState!.validate();
-    // if (!isValidForm) return;
+    final resp = await loginBloc.login(user);
 
-    // final loginBloc = BlocProvider.of<LoginBloc>(context);
-
-    // loginBloc.add(const IsLoader(true));
-
-    // LoginUserModel user = LoginUserModel(
-    //   email: emailController.text.trim(),
-    //   password: passwordController.text.trim()
-    // );
-
-    // final resp = await loginBloc.login(user);
-
-    // if (resp.code == "TRX001") {
-    //   loginBloc.add(const IsLoader(false));
-    //   // Navigator.of(context).pushNamedAndRemoveUntil('home', (route) => false);
-    // } else {
-    //   // ScaffoldMessenger.of(context).clearSnackBars();
-    //   // ScaffoldMessenger.of(context).showSnackBar(
-    //   //   SnackBar(content: Text(resp.message))
-    //   // );
-    // }
+    if (resp.code == "LU001") {
+      loginBloc.add(const IsLoader(false));
+      Navigator.of(context).pushNamedAndRemoveUntil('home', (route) => false);
+    } else {
+      ScaffoldMessenger.of(context).clearSnackBars();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(resp.message))
+      );
+    }
   }
 
   TapGestureRecognizer _registro() {
