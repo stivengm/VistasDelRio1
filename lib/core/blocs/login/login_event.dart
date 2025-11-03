@@ -8,10 +8,10 @@ sealed class LoginEvent extends Equatable {
 }
 
 class IsLoader extends LoginEvent {
-  final bool isLoading;
+  final bool isLoaderLogin;
 
-  const IsLoader(this.isLoading);
+  const IsLoader(this.isLoaderLogin);
 
   @override
-  List<Object> get props => [isLoading];
+  List<Object> get props => [isLoaderLogin];
 }

@@ -4,6 +4,7 @@ import 'package:vistas_del_rio_1/core/blocs/login/login_bloc.dart';
 import 'package:vistas_del_rio_1/ui/utils/app_colors.dart';
 import 'package:vistas_del_rio_1/ui/views/login_view/form_login.dart';
 import 'package:vistas_del_rio_1/ui/widgets/curved.widget.dart';
+import 'package:vistas_del_rio_1/ui/widgets/loader_app.widget.dart';
 
 
 class LoginView extends StatelessWidget {
@@ -46,7 +47,7 @@ class LoginView extends StatelessWidget {
                       ),
                       child: const FormLogin(),
                     ),
-                    // state.isLoaderLogin ? const LoaderApp() : const SizedBox()
+                    state.isLoaderLogin ? const LoaderAppWidget() : const SizedBox()
                   ],
                 ),
               ),

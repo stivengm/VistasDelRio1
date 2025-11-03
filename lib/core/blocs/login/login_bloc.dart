@@ -13,8 +13,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final PreferencesService _prefs = PreferencesService();
   
   LoginBloc() : super(LoginInitial()) {
-    on<LoginEvent>((event, emit) {
-      // TODO: implement event handler
+    on<IsLoader>((event, emit) {
+      emit(state.copyWith(isLoaderLogin: event.isLoaderLogin));
     });
   }
 
